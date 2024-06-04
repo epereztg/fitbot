@@ -1,8 +1,8 @@
-name: Scheduled FitBot run
+name: Testing
 
 on:
   schedule:
-  - cron: "19 0 * * *"
+  - cron: "38 0 * * *"
 
 jobs:
   run:
