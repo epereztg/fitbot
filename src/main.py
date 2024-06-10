@@ -49,7 +49,9 @@ def main(
     class_id = get_class_to_book(classes, target_time, target_name)
 
     print("Current time:", now)
-    target_time = datetime(now.year, now.month, now.day, 09, 00, 00)
+    
+    target_time = datetime(now.year, now.month, now.day, 10, 0, 0)
+    print("target_time:", target_time)
     #sleep_until(target_time)
     print("Woke up at:", datetime.now())
     
