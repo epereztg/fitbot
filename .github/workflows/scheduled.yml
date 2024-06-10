@@ -1,4 +1,4 @@
-name: Scheduled FitBot run
+name: Scheduled FitBot run - E
 
 on:
   schedule:
