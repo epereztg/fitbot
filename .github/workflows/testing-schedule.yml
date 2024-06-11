@@ -2,7 +2,7 @@ name: Testing
 
 on:
   schedule:
-  - cron: "30 09 * * *"
+  - cron: "27 19 * * *"
 
 jobs:
   run:
@@ -13,4 +13,4 @@ jobs:
       - name: Build docker image
         run: make docker/build
       - name: Run fitbot
-        run: docker run -e email=${{ secrets.EMAIL }} -e password=${{ secrets.PASSWORD }} -e booking-goals={'\"0\":{\"time\":\"1830\",\"name\":\"Crossfit\"},\"1\":{\"time\":\"1830\",\"name\":\"Crossfit\"},\"2\":{\"time\":\"1830\",\"name\":\"Crossfit\"},\"3\":{\"time\":\"1930\",\"name\":\"Crossfit\"},\"4\":{\"time\":\"1730\",\"name\":\"Crossfit\"},\"5\":{\"time\":\"1000\",\"name\":\"Teams\"}'} -e box-name=laucalahealthcrossfit -e box-id=9907 -e days-in-advance=2 fitbot
+        run: docker run -e email=${{ secrets.EMAIL }} -e password=${{ secrets.PASSWORD }} -e booking-goals={'\"0\":{\"time\":\"1830\",\"name\":\"Crossfit\"},\"1\":{\"time\":\"1830\",\"name\":\"Crossfit\"},\"2\":{\"time\":\"1830\",\"name\":\"Crossfit\"},\"3\":{\"time\":\"1830\",\"name\":\"Gimnásticos\"},\"4\":{\"time\":\"1730\",\"name\":\"Crossfit\"},\"5\":{\"time\":\"1000\",\"name\":\"Teams\"}'} -e box-name=laucalahealthcrossfit -e box-id=9907 -e days-in-advance=2 fitbot
