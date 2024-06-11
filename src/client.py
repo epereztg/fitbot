@@ -4,9 +4,6 @@ from http import HTTPStatus
 from bs4 import BeautifulSoup
 from requests import Session
 
-import time
-from datetime import datetime, timedelta
-
 from constants import (
     LOGIN_ENDPOINT,
     book_endpoint,
@@ -79,11 +76,3 @@ class AimHarderClient:
                 # booking went fine
                 return
         raise BookingFailed(MESSAGE_BOOKING_FAILED_UNKNOWN)
-
-    def sleep_until(target_time):
-        now = datetime.now()
-        if target_time < now:
-            # If the target time is earlier than now, we assume it's for the next day
-            target_time += timedelta(days=1)
-        sleep_duration = (target_time - now).total_seconds()
-        time.sleep(sleep_duration)
