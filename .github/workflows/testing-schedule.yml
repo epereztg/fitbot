@@ -2,7 +2,7 @@ name: Testing
 
 on:
   schedule:
-  - cron: "35 20 * * *"
+  - cron: "40 20 * * *"
 
 jobs:
   run:
@@ -15,7 +15,7 @@ jobs:
       - name: Sleep until specific time
         run: |
           target_hour=20
-          target_minute=40
+          target_minute=45
           target_second=0
           current_hour=$(date +%H)
           current_minute=$(date +%M)
