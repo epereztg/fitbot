@@ -47,11 +47,11 @@ def main(
     )
     classes = client.get_classes(target_day, family_id)
     class_id = get_class_to_book(classes, target_time, target_name)
-
+    
     print("Current time:", now)
-    target_time = datetime(now.year, now.month, now.day, 10, 0, 0)
-    print("target_time:", target_time)
-    #sleep_until(target_time)
+    early_booking_time = datetime(now.year, now.month, now.day, 10, 0, 0)
+    print("early_booking_time:", early_booking_time)
+    #sleep_until(early_booking_time)
     print("Woke up at:", datetime.now())
     
     client.book_class(target_day, class_id, family_id)
