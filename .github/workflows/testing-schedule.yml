@@ -2,7 +2,7 @@ name: Testing
 
 on:
   schedule:
-  - cron: "40 20 * * *"
+  - cron: "55 10 * * *"
 
 jobs:
   run:
@@ -14,8 +14,8 @@ jobs:
         run: make docker/build
       - name: Sleep until specific time
         run: |
-          target_hour=20
-          target_minute=45
+          target_hour=11
+          target_minute=15
           target_second=0
           current_hour=$(date +%H)
           current_minute=$(date +%M)
@@ -33,4 +33,4 @@ jobs:
           echo "Sleeping for $sleep_duration seconds until the target time"
           sleep $sleep_duration
       - name: Run fitbot
-        run: docker run -e email=${{ secrets.EMAIL }} -e password=${{ secrets.PASSWORD }} -e booking-goals={'\"0\":{\"time\":\"1830\",\"name\":\"Crossfit\"},\"1\":{\"time\":\"1830\",\"name\":\"Crossfit\"},\"2\":{\"time\":\"1830\",\"name\":\"Crossfit\"},\"3\":{\"time\":\"1830\",\"name\":\"Gimnásticos\"},\"4\":{\"time\":\"1730\",\"name\":\"Crossfit\"},\"5\":{\"time\":\"1000\",\"name\":\"Teams\"}'} -e box-name=laucalahealthcrossfit -e box-id=9907 -e days-in-advance=2 fitbot
+        run: docker run -e email=${{ secrets.EMAIL }} -e password=${{ secrets.PASSWORD }} -e booking-goals={'\"0\":{\"time\":\"1830\",\"name\":\"Crossfit\"},\"1\":{\"time\":\"1830\",\"name\":\"Crossfit\"},\"2\":{\"time\":\"1830\",\"name\":\"Crossfit\"},\"3\":{\"time\":\"1830\",\"name\":\"Gimnásticos\"},\"4\":{\"time\":\"1730\",\"name\":\"Crossfit\"},\"5\":{\"time\":\"1200\",\"name\":\"Open Box\"}'} -e box-name=laucalahealthcrossfit -e box-id=9907 -e days-in-advance=2 fitbot
