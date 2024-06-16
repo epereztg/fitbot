@@ -23,6 +23,10 @@ jobs:
           
           target_time_in_seconds=$((target_hour * 3600 + target_minute * 60 + target_second))
           current_time_in_seconds=$((current_hour * 3600 + current_minute * 60 + current_second))
+
+          echo "current_hour: $current_hour"
+          echo "target_time_in_seconds: $target_time_in_seconds"
+          echo "current_time_in_seconds: $current_time_in_seconds"
           
           if [ $current_time_in_seconds -ge $target_time_in_seconds ]; then
             target_time_in_seconds=$((target_time_in_seconds + 86400))  # Add a day in seconds if the target time is in the past
