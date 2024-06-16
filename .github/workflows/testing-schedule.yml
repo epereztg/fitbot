@@ -2,7 +2,7 @@ name: Testing
 
 on:
   schedule:
-  - cron: "50 15 * * *"
+  - cron: "25 17 * * *"
 
 jobs:
   run:
@@ -14,8 +14,8 @@ jobs:
         run: make docker/build
       - name: Sleep until specific time
         run: |
-          target_hour=16
-          target_minute=00
+          target_hour=17
+          target_minute=30
           target_second=0
           current_hour=$(date +%H)
           current_minute=$(date +%M)
