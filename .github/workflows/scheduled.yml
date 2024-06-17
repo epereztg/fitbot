@@ -20,7 +20,11 @@ jobs:
           current_hour=$(date +%H)
           current_minute=$(date +%M)
           current_second=$(date +%S)
-          
+
+          # Remove leading zeros
+          current_hour=$((10#$current_hour))
+          current_minute=$((10#$current_minute))
+          current_second=$((10#$current_second))
           
           target_time_in_seconds=$((target_hour * 3600 + target_minute * 60 + target_second))
           current_time_in_seconds=$((current_hour * 3600 + current_minute * 60 + current_second))
