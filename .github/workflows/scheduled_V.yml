@@ -2,7 +2,7 @@ name: Scheduled FitBot run - V
 
 on:
   schedule:
-  - cron: "55 10 * * 0-4,6"
+  - cron: "20 11 * * 0-4,6"
 
 jobs:
   run:
@@ -15,7 +15,7 @@ jobs:
       - name: Sleep until specific time
         run: |
           target_hour=11
-          target_minute=05
+          target_minute=45
           target_second=0
           current_hour=$(date +%H)
           current_minute=$(date +%M)
@@ -41,7 +41,5 @@ jobs:
 
           echo "Sleeping for $sleep_duration seconds until the target time"
           sleep $sleep_duration
-      - name: Run fitbot
-        run: docker run -e email=${{ secrets.EMAIL_V }} -e password=${{ secrets.PASSWORD_V }} -e booking-goals='{\"0\":{\"time\":\"1830\",\"name\":\"Crossfit\"},\"1\":{\"time\":\"1830\",\"name\":\"Crossfit\"},\"2\":{\"time\":\"1830\",\"name\":\"Crossfit\"},\"3\":{\"time\":\"1930\",\"name\":\"Crossfit\"},\"4\":{\"time\":\"1730\",\"name\":\"Crossfit\"},\"5\":{\"time\":\"1000\",\"name\":\"Teams\"}}' -e box-name=laucalahealthcrossfit -e box-id=9907 -e days-in-advance=2 fitbot
       - name: Run secondary_fitbot
         run: docker run -e email=${{ secrets.EMAIL_V }} -e password=${{ secrets.PASSWORD_V }} -e booking-goals='{\"3\":{\"time\":\"1630\",\"name\":\"Open Box\"}}' -e box-name=laucalahealthcrossfit -e box-id=9907 -e days-in-advance=2 fitbot
