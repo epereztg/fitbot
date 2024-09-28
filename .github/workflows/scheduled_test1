@@ -40,7 +40,6 @@ jobs:
           fi
 
           echo "Sleeping for $sleep_duration seconds until the target time"
-          sleep $sleep_duration
-          
+          sleep $sleep_duration 
       - name: Run secondary_fitbot
         run: docker run -e email=${{ secrets.EMAIL }} -e password=${{ secrets.PASSWORD }} -e booking-goals='{\"0\":{\"time\":\"2030\",\"name\":\"Gimnásticos\"}}' -e box-name=laucalahealthcrossfit -e box-id=9907 -e days-in-advance=2 fitbot
