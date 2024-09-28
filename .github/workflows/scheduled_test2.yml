@@ -1,8 +1,8 @@
-name: Scheduled FitBot run - Test1
+name: Scheduled FitBot run - Test2
 
 on:
   schedule:
-  - cron: "30 14 * * 0-4,6"
+  - cron: "40 14 * * 0-4,6"
 
 jobs:
   run:
@@ -15,7 +15,7 @@ jobs:
       - name: Sleep until specific time
         run: |
           target_hour=14
-          target_minute=50
+          target_minute=59
           target_second=0
           current_hour=$(date +%H)
           current_minute=$(date +%M)
@@ -43,4 +43,4 @@ jobs:
           sleep $sleep_duration
           
       - name: Run secondary_fitbot
-        run: docker run -e email=${{ secrets.EMAIL }} -e password=${{ secrets.PASSWORD }} -e booking-goals='{\"0\":{\"time\":\"1330\",\"name\":\"Endurance\"}}' -e box-name=laucalahealthcrossfit -e box-id=9907 -e days-in-advance=2 fitbot
+        run: docker run -e email=${{ secrets.EMAIL_V }} -e password=${{ secrets.PASSWORD_V }} -e booking-goals='{\"0\":{\"time\":\"1330\",\"name\":\"Endurance\"}}' -e box-name=laucalahealthcrossfit -e box-id=9907 -e days-in-advance=2 fitbot
