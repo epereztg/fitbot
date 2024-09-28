@@ -2,7 +2,7 @@ name: Scheduled FitBot run - Test1
 
 on:
   schedule:
-  - cron: "15 15 * * 0-4,6"
+  - cron: "35 15 * * 0-4,6"
 
 jobs:
   run:
@@ -15,7 +15,7 @@ jobs:
       - name: Sleep until specific time
         run: |
           target_hour=15
-          target_minute=29
+          target_minute=50
           target_second=1
           current_hour=$(date +%H)
           current_minute=$(date +%M)
