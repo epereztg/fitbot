@@ -15,8 +15,8 @@ jobs:
       - name: Sleep until specific time
         run: |
           target_hour=10
-          target_minute=00
-          target_second=1
+          target_minute=01
+          target_second=0
           current_hour=$(date +%H)
           current_minute=$(date +%M)
           current_second=$(date +%S)
