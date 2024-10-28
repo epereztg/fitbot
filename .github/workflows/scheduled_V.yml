@@ -14,7 +14,7 @@ jobs:
         run: make docker/build
       - name: Sleep until specific time
         run: |
-          target_hour=10
+          target_hour=11
           target_minute=00
           target_second=0
           current_hour=$(date +%H)
