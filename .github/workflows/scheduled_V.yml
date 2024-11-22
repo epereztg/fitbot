@@ -42,7 +42,7 @@ jobs:
           echo "Sleeping for $sleep_duration seconds until the target time"
           sleep $sleep_duration
       - name: Run fitbot
-        run: docker run -e email=${{ secrets.EMAIL_V }} -e password=${{ secrets.PASSWORD_V }} -e booking-goals='{\"0\":{\"time\":\"1800\",\"name\":\"Crossfit\"},\"1\":{\"time\":\"1900\",\"name\":\"Crossfit\"},\"2\":{\"time\":\"1830\",\"name\":\"Crossfit\"},\"3\":{\"time\":\"1930\",\"name\":\"Crossfit\"},\"4\":{\"time\":\"1730\",\"name\":\"Crossfit\"},\"5\":{\"time\":\"1000\",\"name\":\"Teams\"}}' -e box-name=laucalahealthcrossfit -e box-id=9907 -e days-in-advance=2 fitbot
+        run: docker run -e email=${{ secrets.EMAIL_V }} -e password=${{ secrets.PASSWORD_V }} -e booking-goals='{\"0\":{\"time\":\"1930\",\"name\":\"Crossfit\"},\"1\":{\"time\":\"1900\",\"name\":\"Crossfit\"},\"2\":{\"time\":\"1830\",\"name\":\"Crossfit\"},\"3\":{\"time\":\"1930\",\"name\":\"Crossfit\"},\"4\":{\"time\":\"1730\",\"name\":\"Crossfit\"},\"5\":{\"time\":\"1000\",\"name\":\"Teams\"}}' -e box-name=laucalahealthcrossfit -e box-id=9907 -e days-in-advance=2 fitbot
       - name: Run secondary_fitbot
         run: docker run -e email=${{ secrets.EMAIL_V }} -e password=${{ secrets.PASSWORD_V }} -e booking-goals='{\"1\":{\"time\":\"2030\",\"name\":\"Mobility\"},\"3\":{\"time\":\"1830\",\"name\":\"Gimnásticos\"}}' -e box-name=laucalahealthcrossfit -e box-id=9907 -e days-in-advance=2 fitbot
           
