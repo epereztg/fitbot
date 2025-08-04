@@ -28,21 +28,34 @@ class AimHarderClient:
     @staticmethod
     def _login(email: str, password: str):
         session = Session()
-        response = session.post(
-            LOGIN_ENDPOINT,
-            data={
-                "login": "Log in",
-                "mail": email,
-                "pw": password,
-            },
-        )
-        response.raise_for_status()
+        try:
+            response = session.post(
+                LOGIN_ENDPOINT,
+                data={
+                    "login": "Log in",
+                    "mail": email,
+                    "pw": password,
+                },
+            )
+            response.raise_for_status()
+        except Exception as e:
+            # Capture the error reason
+            error_message = str(e)
+            if "Too Many Wrong Attempts" in error_message:
+                raise TooManyWrongAttempts
+            elif "Incorrect Credentials" in error_message:
+                raise IncorrectCredentials
+            else:
+                raise  # Re-raise the original exception if not handled
+
+        # Check for specific error tags in the response
         soup = BeautifulSoup(response.content, "html.parser").find(id=ERROR_TAG_ID)
         if soup is not None:
             if TooManyWrongAttempts.key_phrase in soup.text:
                 raise TooManyWrongAttempts
             elif IncorrectCredentials.key_phrase in soup.text:
                 raise IncorrectCredentials
+
         return session
 
     def get_classes(self, target_day: datetime, family_id: str | None = None):
