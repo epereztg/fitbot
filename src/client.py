@@ -40,7 +40,7 @@ class AimHarderClient:
                     "mail": email,
                     "pw": password,
                 },
-                headers=headers
+                headers=headers,
             )
             response.raise_for_status()
         except Exception as e:
