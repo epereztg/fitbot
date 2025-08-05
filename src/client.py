@@ -29,6 +29,10 @@ class AimHarderClient:
     def _login(email: str, password: str):
         session = Session()
         try:
+            headers = {
+                "User-Agent": "Mozilla/5.0",  
+                "Content-Type": "application/x-www-form-urlencoded",
+            }
             response = session.post(
                 LOGIN_ENDPOINT,
                 data={
@@ -36,6 +40,7 @@ class AimHarderClient:
                     "mail": email,
                     "pw": password,
                 },
+                headers=headers
             )
             response.raise_for_status()
         except Exception as e:
