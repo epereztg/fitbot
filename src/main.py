@@ -9,6 +9,8 @@ from exceptions import (
     BoxClosed,
     MESSAGE_BOX_IS_CLOSED,
 )
+from exceptions import BookingFailed
+from logger import logger
 
 
 def get_booking_goal_time(day: datetime, booking_goals):
@@ -34,20 +36,39 @@ def get_class_to_book(classes: list[dict], target_time: str, class_name: str):
         raise NoBookingGoal(
             f"No class with the text `{class_name}` in its name at time `{target_time}`"
         )
-    return _class[0]["id"]
+    return _class[0]
 
 
 def main(
-    email, password, booking_goals, box_name, box_id, days_in_advance, family_id=None
+    email,
+    password,
+    booking_goals,
+    box_name,
+    box_id,
+    days_in_advance,
+    family_id=None,
+    proxy=None,
 ):
     target_day = datetime.today() + timedelta(days=days_in_advance)
-    target_time, target_name = get_booking_goal_time(target_day, booking_goals)
+    try:
+        target_time, target_name = get_booking_goal_time(target_day, booking_goals)
+    except NoBookingGoal as e:
+        logger.info(str(e))
+        return
     client = AimHarderClient(
-        email=email, password=password, box_id=box_id, box_name=box_name
+        email=email, password=password, box_id=box_id, box_name=box_name, proxy=proxy
     )
     classes = client.get_classes(target_day, family_id)
-    class_id = get_class_to_book(classes, target_time, target_name)
-    client.book_class(target_day, class_id, family_id)
+    _class = get_class_to_book(classes, target_time, target_name)
+    if _class["bookState"] == 1:
+        logger.info("Class already booked. Nothing to do")
+        return
+    try:
+        client.book_class(target_day, _class["id"], family_id)
+    except BookingFailed as e:
+        logger.error(str(e))
+        return
+    logger.info("Class booked successfully")
 
 
 if __name__ == "__main__":
@@ -59,6 +80,7 @@ if __name__ == "__main__":
      --box-id 3984
      --booking-goal '{"0":{"time": "1815", "name": "Provenza"}}'
      --family-id 123456
+     --proxy socks5://89.58.45.94:34472
     """
     parser = argparse.ArgumentParser()
     parser.add_argument("--email", required=True, type=str)
@@ -67,6 +89,7 @@ if __name__ == "__main__":
     parser.add_argument("--box-name", required=True, type=str)
     parser.add_argument("--box-id", required=True, type=int)
     parser.add_argument("--days-in-advance", required=True, type=int, default=3)
+    parser.add_argument("--proxy", required=False, type=str, default=None)
     parser.add_argument(
         "--family-id",
         required=False,

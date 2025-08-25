@@ -13,6 +13,8 @@ from constants import ERROR_TAG_ID
 
 from exceptions import MESSAGE_BOOKING_FAILED_NO_CREDIT, MESSAGE_BOOKING_FAILED_UNKNOWN
 
+from exceptions import MESSAGE_TOO_SOON_TO_BOOK
+
 
 class TestAimHarderClient:
     @pytest.mark.parametrize(
@@ -114,6 +116,11 @@ class TestAimHarderClient:
                 {"bookState": -2},
                 HTTPStatus.OK,
                 pytest.raises(BookingFailed, match=MESSAGE_BOOKING_FAILED_NO_CREDIT),
+            ),
+            (
+                {"bookState": -12},
+                HTTPStatus.OK,
+                pytest.raises(BookingFailed, match=MESSAGE_TOO_SOON_TO_BOOK),
             ),
         ),
     )
