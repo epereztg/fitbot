@@ -30,7 +30,7 @@ class AimHarderClient:
         session = Session()
         try:
             headers = {
-                "User-Agent": "Mozilla/5.0",  
+                "User-Agent": "Mozilla/5.0",
                 "Content-Type": "application/x-www-form-urlencoded",
             }
             response = session.post(
@@ -40,7 +40,7 @@ class AimHarderClient:
                     "mail": email,
                     "pw": password,
                 },
-                headers=headers
+                headers=headers,
             )
             response.raise_for_status()
         except Exception as e:
@@ -76,7 +76,7 @@ class AimHarderClient:
 
     def book_class(
         self, target_day: datetime, class_id: str, family_id: str | None = None
-    ) -> bool:
+    ) -> None:
         response = self.session.post(
             book_endpoint(self.box_name),
             data={
