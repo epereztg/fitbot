@@ -1,5 +1,6 @@
 from datetime import datetime
 from http import HTTPStatus
+from typing import Optional
 
 from bs4 import BeautifulSoup
 from requests import Session
@@ -16,51 +17,45 @@ from exceptions import (
     TooManyWrongAttempts,
     MESSAGE_BOOKING_FAILED_UNKNOWN,
     MESSAGE_BOOKING_FAILED_NO_CREDIT,
+    MESSAGE_TOO_SOON_TO_BOOK,
 )
+from logger import logger
 
 
 class AimHarderClient:
-    def __init__(self, email: str, password: str, box_id: int, box_name: str):
-        self.session = self._login(email, password)
+    def __init__(
+        self,
+        email: str,
+        password: str,
+        box_id: int,
+        box_name: str,
+        proxy: Optional[str] = None,
+    ):
+        self.session = self._login(email, password, proxy)
         self.box_id = box_id
         self.box_name = box_name
 
     @staticmethod
-    def _login(email: str, password: str):
+    def _login(email: str, password: str, proxy: Optional[str] = None) -> Session:
         session = Session()
-        try:
-            headers = {
-                "User-Agent": "Mozilla/5.0",
-                "Content-Type": "application/x-www-form-urlencoded",
-            }
-            response = session.post(
-                LOGIN_ENDPOINT,
-                data={
-                    "login": "Log in",
-                    "mail": email,
-                    "pw": password,
-                },
-                headers=headers,
-            )
-            response.raise_for_status()
-        except Exception as e:
-            # Capture the error reason
-            error_message = str(e)
-            if "Too Many Wrong Attempts" in error_message:
-                raise TooManyWrongAttempts
-            elif "Incorrect Credentials" in error_message:
-                raise IncorrectCredentials
-            else:
-                raise  # Re-raise the original exception if not handled
-
-        # Check for specific error tags in the response
+        session.proxies = {"https": proxy}
+        logger.info(f"Using proxy: {'yes' if proxy else 'no'}")
+        response = session.post(
+            LOGIN_ENDPOINT,
+            data={
+                "login": "Log in",
+                "mail": email,
+                "pw": password,
+            },
+        )
+        response.raise_for_status()
         soup = BeautifulSoup(response.content, "html.parser").find(id=ERROR_TAG_ID)
         if soup is not None:
             if TooManyWrongAttempts.key_phrase in soup.text:
                 raise TooManyWrongAttempts
             elif IncorrectCredentials.key_phrase in soup.text:
                 raise IncorrectCredentials
-
+        logger.info("Logged successfully")
         return session
 
     def get_classes(self, target_day: datetime, family_id: str | None = None):
@@ -76,7 +71,7 @@ class AimHarderClient:
 
     def book_class(
         self, target_day: datetime, class_id: str, family_id: str | None = None
-    ) -> None:
+    ) -> bool:
         response = self.session.post(
             book_endpoint(self.box_name),
             data={
@@ -90,6 +85,8 @@ class AimHarderClient:
             response = response.json()
             if "bookState" in response and response["bookState"] == -2:
                 raise BookingFailed(MESSAGE_BOOKING_FAILED_NO_CREDIT)
+            if "bookState" in response and response["bookState"] == -12:
+                raise BookingFailed(MESSAGE_TOO_SOON_TO_BOOK)
             if "errorMssg" not in response and "errorMssgLang" not in response:
                 # booking went fine
                 return
