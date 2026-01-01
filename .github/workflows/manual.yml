@@ -7,7 +7,7 @@ jobs:
   run:
     runs-on: ubuntu-latest
     env:
-      BOOKING_GOALS: '{"4":{"time":"0930","name":"Open Box"}}'
+      BOOKING_GOALS: '{"4":{"time":"0930","name":"Crossfit"}}'
     steps:
       - name: Git checkout
         uses: actions/checkout@v2
