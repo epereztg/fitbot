@@ -1,28 +1,17 @@
 name: Manual workflow
 
 on:
-  workflow_dispatch:   # allows you to run manually from the GitHub Actions UI
+  workflow_dispatch:   # allows you to run manually from the GitHub Actions UI
 
 jobs:
-  run:
-    runs-on: ubuntu-latest
-    env:
-      BOOKING_GOALS: '{"4":{"time":"0930","name":"Crossfit"}}'
-    steps:
-      - name: Git checkout
-        uses: actions/checkout@v2
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2
 
-      - name: Build docker image
-        run: make docker/build
+      - name: Build docker image
+        run: make docker/build
 
-      - name: Run fitbot
-        run: |
-          docker run \
-            -e email=${{ secrets.EMAIL }} \
-            -e password=${{ secrets.PASSWORD }} \
-            -e booking-goals='{"4":{"time":"0930","name":"CrossFit"}}'  \
-            -e box-name=ensocrossfit \
-            -e box-id=8298 \
-            -e days-in-advance=1 \
-            -e proxy=${{ secrets.PROXY }} \
-            fitbot
+      - name: Run fitbot
+        run: docker run -e email=${{ secrets.EMAIL }} -e password=${{ secrets.PASSWORD }} -e booking-goals='{\"1\":{\"time\”:\”0930\",\"name\":\"CrossFit\"}}' -e box-name=ensocrossfit -e box-id=8298 -e days-in-advance=1 -e proxy=${{ secrets.PROXY }} fitbot
