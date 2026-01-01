@@ -6,6 +6,8 @@ on:
 jobs:
   run:
     runs-on: ubuntu-latest
+    env:
+      BOOKING_GOALS: '{"4":{"time":"0930","name":"Open Box"}}'
     steps:
       - name: Git checkout
         uses: actions/checkout@v2
@@ -14,4 +16,4 @@ jobs:
         run: make docker/build
 
       - name: Run fitbot
-        run: docker run -e email=${{ secrets.EMAIL }} -e password=${{ secrets.PASSWORD }} -e booking-goals='{\"4\":{\"time\":\"0930\",\"name\":\"Open Box\"}}' -e box-name=ensocrossfit -e box-id=8298 -e days-in-advance=1 -e proxy=${{ secrets.PROXY }} fitbot
+        run: docker run -e email=${{ secrets.EMAIL }} -e password=${{ secrets.PASSWORD }} -e booking-goals "$BOOKING_GOALS" -e box-name=ensocrossfit -e box-id=8298 -e days-in-advance=1 -e proxy=${{ secrets.PROXY }} fitbot
