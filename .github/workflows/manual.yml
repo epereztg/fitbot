@@ -20,7 +20,7 @@ jobs:
           docker run \
             -e email=${{ secrets.EMAIL }} \
             -e password=${{ secrets.PASSWORD }} \
-            -e booking-goals='{"4":{"time":"0930","name":"Crossfit"}}'  \
+            -e booking-goals='{"4":{"time":"0930","name":"CrossFit"}}'  \
             -e box-name=ensocrossfit \
             -e box-id=8298 \
             -e days-in-advance=1 \
