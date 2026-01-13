@@ -2,7 +2,7 @@ name: Scheduled FitBot run - E (WZ)
 
 on:
   schedule:
-  - cron: "40 9 * * SUN-SAT"
+  - cron: "40 10 * * SUN-SAT"
 
 jobs:
   run:
@@ -42,4 +42,4 @@ jobs:
           echo "Sleeping for $sleep_duration seconds until the target time"
           sleep $sleep_duration
       - name: Run secondary_fitbot
-        run: docker run -e email=${{ secrets.EMAIL }} -e password=${{ secrets.PASSWORD }} -e booking-goals='{\"3\":{\"time\":\"1700\",\"name\":\"CROSSFIT\"}}' -e box-name=wezonearturosoria -e box-id=10584 -e days-in-advance=1 -e proxy=${{ secrets.PROXY }} fitbot
+        run: docker run -e email=${{ secrets.EMAIL }} -e password=${{ secrets.PASSWORD }} -e booking-goals='{\"3\":{\"time\":\"1830\",\"name\":\"Crossfit\"}}' -e box-name=wezonearturosoria -e box-id=10584 -e days-in-advance=2 -e proxy=${{ secrets.PROXY }} fitbot
